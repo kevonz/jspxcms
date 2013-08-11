@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>操作成功 --  ${site.fullNameOrName}</title>
+<link href="_files/jspxcms.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+setTimeout(function(){location.href="${Param.nextUrl!ctx}";},1000);
+</script>
+</head>
+<body class="index">
+	<div class="w960 center clear mt1">
+     <div style="border:1px solid #94cfe4;margin:150px 250px; height:150px; width:400px; background-color:#fdb813;">
+		<h1 style="text-align:center; margin:20px 0px;">操作成功</h1>
+		<ul>
+		[#list response.messages as m]
+		<li>${m}</li>
+		[/#list]
+		</ul>
+		<p style="text-align:center"><a href="${Param.nextUrl!ctx}">如果您的浏览器没有反应，请点击这里...</a></p>
+ 	</div>
+  </div>
+</body>
+</html>
+

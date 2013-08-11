@@ -1,0 +1,14 @@
+﻿主体着色：#1D7ABD
+幻灯片的配置
+effect: '', // wave, zipper, curtain
+02	width: 500, // width of panel
+03	height: 332, // height of panel
+04	strips: 20, // number of strips
+05	delay: 5000, // delay between images in ms
+06	stripDelay: 50, // delay beetwen strips in ms
+07	titleOpacity: 0.7, // opacity of title
+08	titleSpeed: 1000, // speed of title appereance in ms
+09	position: 'alternate', // top, bottom, alternate, curtain
+10	direction: 'fountainAlternate', // left, right, alternate, random, fountain, fountainAlternate
+11	navigation: false, // prev and next navigation buttons
+12	links: false // show images as links

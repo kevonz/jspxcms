@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${title!} -- ${node.name} -- ${site.fullNameOrName} -- Powerd by Jspxcms</title>
+<link href="_files/jspxcms.css" rel="stylesheet" type="text/css" />
+<link href="_files/pic_change.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="${fore}/jquery.js" ></script>
+<script language="javascript" type="text/javascript" src="${fore}/bluewise.js" ></script>
+<script language="javascript" type="text/javascript" src="${fore}/fore.js" ></script>
+<script language="javascript" type="text/javascript" src="_files/pic_change.js"></script>
+<script language="javascript" type="text/javascript" src="_files/common.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#nextone").click(function(){
+			$("#auther").attr('src','${ctx}/captcha.servlet?d='+new Date()*1);
+			$("#captcha").unbind("focusin");
+		});
+		$("#captcha").focusin(function(){
+			$(".autherimg").css("display","inline");
+			$("#auther").attr('src','${ctx}/captcha.servlet?d='+new Date()*1);
+		});
+		//$("#captcha").captcha("${ctx}/captcha.servlet",{title:"点击重新获取验证码"});
+	});
+</script>
+</head>
+<body>
+[#include "inc_header.html"/]
+<div class="w960 center clear mt1">
+	<div class="pleft">
+    	<div class="position">
+      	  当前位置：[#list node.hierarchy as n]<a href="${n.url}">${n.name}</a>>[/#list]正文
+        </div>
+    	<div class="textinfo">
+      	 <h2 class="title mt2">${info.fullTitleOrTitle}</h2>
+         <p class="infoattr">
+         	<span>${info.publishDate?string('yyyy-MM-dd')}</span>
+                <span>浏览次数：<span id="info_views"></span>
+        		<span>来源：${info.getSource()!} </span>
+         		<span>作者：${info.getAuthor()!}</span>
+				<script type="text/javascript">
+					$("#info_views").load("${ctx}/info_views/${info.id}.jspx?d="+new Date()*1);
+				</script></span>
+         </p>
+ 	   	 <div class="text">${text}</div>
+         [#include 'inc_page.html'/]
+          <!-- Baidu Button BEGIN -->
+             <div class="share-btn" style="margin-bottom:8px; height:30px;">
+            <div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+                <span class="bds_more">分享到：</span>
+                <a class="bds_qzone"></a>
+                <a class="bds_tsina"></a>
+                <a class="bds_tqq"></a>
+                <a class="bds_renren"></a>
+                <a class="shareCount"></a>
+            </div>
+        	<script type="text/javascript" id="bdshare_js" data="type=tools" ></script>
+      		<script type="text/javascript" id="bdshell_js"></script>
+            <script type="text/javascript">
+            document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+        	</script>
+           </div>
+        <!-- Baidu Button END -->
+       </div>
+       <div class="othernews">
+       	<ul>
+      		 [@InfoPrev id=info.id;i]
+         	 [#if i??]
+        	 <li>
+         		<span class="spanleft">上一条：<a href="${i.url}">${i.title!}</a></span>
+         		<span class="spanright">${i.publishDate?string('yyyy-MM-dd')}</span>
+      		 </li>
+         	[#else]
+         	<li><span class="spanleft">上一条：没有了</span></li>
+        	[/#if]
+		 	[/@InfoPrev]
+		 	[@InfoNext id=info.id;i]
+         	[#if i??]
+		 	<li>
+         		<span class="spanleft">下一条：<a href="${i.url}">${i.title!}</a></span>
+         		<span class="spanright">${i.publishDate?string('yyyy-MM-dd')}</span>
+         	</li>
+         	[#else]
+        	<li><span class="clr">下一条：没有了</span></li>
+         	[/#if]
+		 	[/@InfoNext ]
+         </ul>
+       </div>
+               <div class="comment">	 
+    		  <p style="font-size:14px;">评论</p>
+			  <form id="comment" action="${ctx}/comment_submit.jspx" method="post">
+			  	<input type="hidden" name="ftype" value="Info"/>
+			  	<input type="hidden" name="fid" value="${info.id}"/>
+			  	<input type="hidden" name="nextUrl" value="${url}"/>
+			  	<p><textarea id="content" name="text"></textarea></p>
+			  	<p class="authcode">验证码<input type="text" id="captcha" name="captcha"/>
+                <span class="autherimg">
+                <img id="auther"  src="javascript:false;"  width="120" height="30" 
+                onclick="this.src='${ctx}/captcha.servlet?d='+new Date()*1"/>
+                <a  id="nextone" style="cursor:pointer;">看不清，换一张</a>
+                </span>
+               </p>
+			  	<p><input id="commit" type="submit" value=" "/></p>
+			  </form>
+              <h2 style="margin:20px 0px;">网友评论:</h2>
+			  <div id="comment_div"></div>
+              <script type="text/javascript">
+              		$("#comment_div").load("${ctx}/comment_list.jspx?fid=${info.id}&d="+new Date()*1);
+             </script>
+            <p>
+              		<a href="${ctx}/comment.jspx?fid=${info.id}">
+              		共<span id="info_comments"></span>评论。点击查看
+                    </a>
+					<script type="text/javascript">
+              		$("#info_comments").load("${ctx}/info_comments/${info.id}.jspx?d="+new Date()*1);
+					</script>
+              </p>
+		</div>     
+       <div class="reletednews">
+       		<p>相关新闻：</p>
+       		[@InfoFulltextList q=info.title excludeId=info.id limit=4;list]
+            </ul>
+			[#list list as fulltextInfo]
+			<li><span class="spanleft">[@A bean=fulltextInfo target="_blank"/]</span>
+            	<span class="spanright">${fulltextInfo.publishDate?string('yyyy-MM-dd')}</span>
+             </li>
+			[/#list]
+       	 </ul>
+ 	 	[/@InfoFulltextList]
+       </div>
+	</div>
+	<div class="pright">
+		[#include "inc_right.html"/]
+	</div>
+</div>
+[#include "inc_footer.html"/]
+</body>
+</html>
